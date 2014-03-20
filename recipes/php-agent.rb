@@ -5,8 +5,6 @@
 # Copyright 2012-2014, Escape Studios
 #
 
-include_recipe node['newrelic']['php-agent']['php_recipe']
-
 license = node['newrelic']['application_monitoring']['license']
 
 #the older version (3.0) had a bug in the init scripts that when it shut down the daemon it would also kill dpkg as it was trying to upgrade
