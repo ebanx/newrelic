@@ -34,10 +34,10 @@ end
 #configure New Relic INI file and set the daemon related options (documented at /usr/lib/newrelic-php5/scripts/newrelic.ini.template)
 #and restart the web server in order to pick up the new settings
 [
-    "#{node['php']['ext_conf_dir']}",
-    "/etc/php/7.1/cli/conf.d",
-    "/etc/php5/cli/conf.d",
-].each do |dir|
+    ["#{node['php']['ext_conf_dir']}", "Pay PHP Default"],
+    ["/etc/php/7.1/cli/conf.d", "Pay PHP CLI"],
+    ["/etc/php5/cli/conf.d", "Pay PHP CLI"],
+].each do |dir, appname|
     template "#{dir}/newrelic.ini" do
         source "newrelic.ini.php.erb"
         owner "root"
@@ -48,7 +48,7 @@ end
             :license => license,
             :logfile => node['newrelic']['application_monitoring']['logfile'],
             :loglevel => node['newrelic']['application_monitoring']['loglevel'],
-            :appname => node['newrelic']['application_monitoring']['appname'],
+            :appname => node['newrelic']['application_monitoring']['appname'] || appname,
             :daemon_logfile => node['newrelic']['application_monitoring']['daemon']['logfile'],
             :daemon_loglevel => node['newrelic']['application_monitoring']['daemon']['loglevel'],
             :daemon_port => node['newrelic']['application_monitoring']['daemon']['port'],
